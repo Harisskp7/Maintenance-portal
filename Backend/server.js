@@ -23,8 +23,13 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Route mounting
-app.use('/api/maint/login', maintLoginRoute);  // if you move login to route file
+// Test endpoint
+app.get('/api/test', (req, res) => {
+  res.json({ success: true, message: 'Backend is working!' });
+});
+
+// Route mounting - Use your real backend endpoints
+app.use('/api/maint/login', maintLoginRoute);
 app.use('/api/maint/notisfy', maintNotify);
 app.use('/api/maint/work', maintWork);
 app.use('/api/maint/plant', maintPlant);
@@ -33,7 +38,6 @@ app.use('/api/maint/plant', maintPlant);
 // app.use('/api/vendor/memo', vendorMemoRoute);
 // app.use('/api/vendor/pay', vendorPayRoute);
 // app.use('/api/vendor/form', vendorFormRoute);
-
 
 // Start server
 app.listen(PORT, () => {
