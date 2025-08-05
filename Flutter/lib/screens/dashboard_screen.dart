@@ -123,21 +123,34 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
         title: const Text('Maintenance Dashboard'),
-        backgroundColor: Colors.blue.shade700,
-        foregroundColor: Colors.white,
         elevation: 0,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadPlants,
+          Container(
+            margin: const EdgeInsets.only(right: 8),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.refresh),
+              onPressed: _loadPlants,
+            ),
           ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, '/');
-            },
+          Container(
+            margin: const EdgeInsets.only(right: 16),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/');
+              },
+            ),
           ),
         ],
         bottom: TabBar(
@@ -159,61 +172,144 @@ class _DashboardScreenState extends State<DashboardScreen>
       ),
       body: Column(
         children: [
-          // Plant Selection
+          // Enhanced Plant Selection
           Container(
-            padding: const EdgeInsets.all(16),
-            color: Colors.grey.shade50,
+            margin: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
             child: Row(
               children: [
-                const Icon(Icons.factory, color: Colors.blue),
-                const SizedBox(width: 8),
-                const Text(
-                  'Plant:',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF2563EB).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(
+                    Icons.factory,
+                    color: Color(0xFF2563EB),
+                    size: 24,
+                  ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 16),
                 Expanded(
-                  child: isLoadingPlants
-                      ? const Row(
-                          children: [
-                            SizedBox(
-                              width: 16,
-                              height: 16,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            ),
-                            SizedBox(width: 8),
-                            Text('Loading plants...'),
-                          ],
-                        )
-                      : availablePlants.isEmpty
-                          ? const Text('No plants available', style: TextStyle(color: Colors.red))
-                          : DropdownButton<String>(
-                              value: selectedPlant.isEmpty ? null : selectedPlant,
-                              isExpanded: true,
-                              hint: const Text('Select a plant'),
-                              items: availablePlants.map((plant) {
-                                return DropdownMenuItem<String>(
-                                  value: plant,
-                                  child: Text('Plant $plant'),
-                                );
-                              }).toList(),
-                              onChanged: _onPlantChanged,
-                            ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Select Plant',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF64748B),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      isLoadingPlants
+                          ? Row(
+                              children: [
+                                const SizedBox(
+                                  width: 16,
+                                  height: 16,
+                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  'Loading plants...',
+                                  style: TextStyle(
+                                    color: Colors.grey.shade600,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : availablePlants.isEmpty
+                              ? Text(
+                                  'No plants available',
+                                  style: TextStyle(
+                                    color: Colors.red.shade600,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                )
+                              : DropdownButton<String>(
+                                  value: selectedPlant.isEmpty ? null : selectedPlant,
+                                  isExpanded: true,
+                                  hint: const Text(
+                                    'Select a plant',
+                                    style: TextStyle(color: Color(0xFF64748B)),
+                                  ),
+                                  items: availablePlants.map((plant) {
+                                    return DropdownMenuItem<String>(
+                                      value: plant,
+                                      child: Text(
+                                        'Plant $plant',
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: _onPlantChanged,
+                                  underline: Container(),
+                                  icon: const Icon(Icons.keyboard_arrow_down),
+                                ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
 
-          // Welcome Message
+          // Enhanced Welcome Message
           Container(
-            padding: const EdgeInsets.all(16),
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF2563EB),
+                  Color(0xFF3B82F6),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF2563EB).withOpacity(0.3),
+                  blurRadius: 15,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
             child: Row(
               children: [
-                CircleAvatar(
-                  backgroundColor: Colors.blue.shade100,
-                  child: Icon(Icons.person, color: Colors.blue.shade700),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(
+                    Icons.person,
+                    color: Colors.white,
+                    size: 24,
+                  ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -223,14 +319,17 @@ class _DashboardScreenState extends State<DashboardScreen>
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
+                      const SizedBox(height: 4),
                       Text(
                         selectedPlant.isEmpty 
-                            ? 'Please select a plant'
+                            ? 'Please select a plant to view data'
                             : 'Plant $selectedPlant Dashboard',
                         style: TextStyle(
-                          color: Colors.grey.shade600,
+                          color: Colors.white.withOpacity(0.9),
+                          fontSize: 14,
                         ),
                       ),
                     ],
@@ -240,24 +339,38 @@ class _DashboardScreenState extends State<DashboardScreen>
             ),
           ),
 
-          // Error Message
+          // Enhanced Error Message
           if (errorMessage.isNotEmpty)
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              padding: const EdgeInsets.all(12),
+              margin: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.orange.shade50,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: Colors.orange.shade200),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.warning, color: Colors.orange.shade700, size: 20),
-                  const SizedBox(width: 8),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.orange.shade100,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Icon(
+                      Icons.warning_amber,
+                      color: Colors.orange.shade700,
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       errorMessage,
-                      style: TextStyle(color: Colors.orange.shade700),
+                      style: TextStyle(
+                        color: Colors.orange.shade700,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ],
@@ -284,51 +397,22 @@ class _DashboardScreenState extends State<DashboardScreen>
 
   Widget _buildNotificationsTab() {
     if (selectedPlant.isEmpty) {
-      return const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.factory_outlined, size: 64, color: Colors.grey),
-            SizedBox(height: 16),
-            Text(
-              'Please select a plant first',
-              style: TextStyle(fontSize: 18, color: Colors.grey),
-            ),
-          ],
-        ),
+      return _buildEmptyState(
+        icon: Icons.factory_outlined,
+        title: 'Please select a plant first',
+        subtitle: 'Choose a plant from the dropdown above to view notifications',
       );
     }
 
     if (isLoadingNotifications) {
-      return const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 16),
-            Text('Loading notifications...'),
-          ],
-        ),
-      );
+      return _buildLoadingState('Loading notifications...');
     }
 
     if (notifications.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.notifications_none, size: 64, color: Colors.grey),
-            SizedBox(height: 16),
-            Text(
-              'No notifications found',
-              style: TextStyle(fontSize: 18, color: Colors.grey),
-            ),
-            Text(
-              'No notifications available for Plant $selectedPlant',
-              style: TextStyle(color: Colors.grey),
-            ),
-          ],
-        ),
+      return _buildEmptyState(
+        icon: Icons.notifications_none,
+        title: 'No notifications found',
+        subtitle: 'No notifications available for Plant $selectedPlant',
       );
     }
 
@@ -351,51 +435,22 @@ class _DashboardScreenState extends State<DashboardScreen>
 
   Widget _buildWorkOrdersTab() {
     if (selectedPlant.isEmpty) {
-      return const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.factory_outlined, size: 64, color: Colors.grey),
-            SizedBox(height: 16),
-            Text(
-              'Please select a plant first',
-              style: TextStyle(fontSize: 18, color: Colors.grey),
-            ),
-          ],
-        ),
+      return _buildEmptyState(
+        icon: Icons.factory_outlined,
+        title: 'Please select a plant first',
+        subtitle: 'Choose a plant from the dropdown above to view work orders',
       );
     }
 
     if (isLoadingWorkOrders) {
-      return const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 16),
-            Text('Loading work orders...'),
-          ],
-        ),
-      );
+      return _buildLoadingState('Loading work orders...');
     }
 
     if (workOrders.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.work_outline, size: 64, color: Colors.grey),
-            SizedBox(height: 16),
-            Text(
-              'No work orders found',
-              style: TextStyle(fontSize: 18, color: Colors.grey),
-            ),
-            Text(
-              'No work orders available for Plant $selectedPlant',
-              style: TextStyle(color: Colors.grey),
-            ),
-          ],
-        ),
+      return _buildEmptyState(
+        icon: Icons.work_outline,
+        title: 'No work orders found',
+        subtitle: 'No work orders available for Plant $selectedPlant',
       );
     }
 
@@ -416,11 +471,108 @@ class _DashboardScreenState extends State<DashboardScreen>
     );
   }
 
+  Widget _buildEmptyState({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+  }) {
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Icon(
+                icon,
+                size: 64,
+                color: Colors.grey.shade400,
+              ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF1E293B),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              subtitle,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey.shade600,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoadingState(String message) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF2563EB)),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            message,
+            style: const TextStyle(
+              fontSize: 16,
+              color: Color(0xFF64748B),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _showNotificationDetails(MaintenanceNotification notification) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Notification ${notification.qmnum}'),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: const Color(0xFF2563EB).withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(
+                Icons.notifications,
+                color: Color(0xFF2563EB),
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                'Notification ${notification.qmnum}',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
         content: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -450,7 +602,35 @@ class _DashboardScreenState extends State<DashboardScreen>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Work Order ${workOrder.aufnr}'),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.green.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(
+                Icons.work,
+                color: Colors.green,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                'Work Order ${workOrder.aufnr}',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
         content: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -477,19 +657,27 @@ class _DashboardScreenState extends State<DashboardScreen>
 
   Widget _buildDetailRow(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 100,
+            width: 120,
             child: Text(
               '$label:',
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF475569),
+              ),
             ),
           ),
           Expanded(
-            child: Text(value.isEmpty ? 'N/A' : value),
+            child: Text(
+              value.isEmpty ? 'N/A' : value,
+              style: const TextStyle(
+                color: Color(0xFF1E293B),
+              ),
+            ),
           ),
         ],
       ),
