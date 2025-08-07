@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
-import 'dashboard_screen.dart';
+import 'dashboard_screen_new.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -43,14 +43,18 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => DashboardScreen(
+            builder: (_) => DashboardScreenNew(
               employeeId: result['employee_id'] ?? employeeIdController.text.trim(),
             ),
           ),
         );
       } else {
+        // Add a short delay for better UX
+        await Future.delayed(const Duration(milliseconds: 500));
         setState(() {
-          errorMessage = result['message'] ?? 'Login failed. Please try again.';
+          errorMessage = (result['message'] != null && result['message'].toString().trim().isNotEmpty)
+              ? result['message']
+              : 'Invalid Employee ID or Password. Please try again.';
         });
       }
     } catch (e) {

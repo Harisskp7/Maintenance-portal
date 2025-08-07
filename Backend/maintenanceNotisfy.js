@@ -10,7 +10,7 @@ const PROFILE_URL = '/sap/opu/odata/SAP/ZMAINTT_PORTAL577_SRV/';
 const ENTITY_SET = 'ZNOTISFY_MAINTSet'; // Your maintenance entity set
 const SAP_CREDS = {
   username: 'K901577',
-  password: 'Haris@0713',
+  password: 'Harish@0701',
 };
 
 // HTTPS agent to ignore certificate issues

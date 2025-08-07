@@ -7,7 +7,7 @@ const https = require('https');
 const router = express.Router();
 
 const sapUser = 'K901577';
-const sapPass = 'Haris@0713';
+const sapPass = 'Harish@0701';
 const baseUrl = 'http://AZKTLDS5CP.kcloud.com:8000';
 const servicePath = '/sap/opu/odata/SAP/ZMAINTT_PORTAL577_SRV/';
 const entitySet = 'ZLOGIN_MAINTSet';
@@ -58,7 +58,12 @@ router.post('/', async (req, res) => {
         const MESSAGE = props?.['d:MESSAGE'];
         const EMPLOYEE_ID = props?.['d:employee_id'];
 
-        return res.status(200).json({ success: true, MESSAGE, employee_id: EMPLOYEE_ID });
+        // Only set success true if MESSAGE indicates login success
+        if (MESSAGE && MESSAGE.toLowerCase().includes('success')) {
+          return res.status(200).json({ success: true, MESSAGE, employee_id: EMPLOYEE_ID });
+        } else {
+          return res.status(200).json({ success: false, MESSAGE: MESSAGE || 'Invalid Employee ID or Password.' });
+        }
       } catch (parseErr) {
         return res.status(500).json({ success: false, MESSAGE: 'Unexpected SAP response format' });
       }

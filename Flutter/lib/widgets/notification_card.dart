@@ -317,6 +317,30 @@ class NotificationCard extends StatelessWidget {
                     ),
                   ),
                 ],
+
+                // --- All other fields section ---
+                const SizedBox(height: 12),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey.shade200),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildFieldRow('Functional Loc.', notification.iloAn),
+                      _buildFieldRow('Group', notification.ingrp),
+                      _buildFieldRow('Notification Type', notification.qmart),
+                      _buildFieldRow('Order Type', notification.artyp),
+                      _buildFieldRow('Status', notification.status),
+                      _buildFieldRow('Priority Key', notification.prioK),
+                      _buildFieldRow('Start Date', notification.formattedDate),
+                      _buildFieldRow('Start Time', notification.formattedTime),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -366,5 +390,27 @@ class NotificationCard extends StatelessWidget {
       default:
         return Icons.help_outline;
     }
+  }
+
+  Widget _buildFieldRow(String label, String value) {
+    if (value.isEmpty) return SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        children: [
+          Text(
+            '$label: ',
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: const TextStyle(fontSize: 13),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 } 

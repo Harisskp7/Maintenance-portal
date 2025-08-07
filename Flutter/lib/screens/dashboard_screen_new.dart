@@ -5,16 +5,16 @@ import '../services/api_service.dart';
 import '../widgets/notification_card.dart';
 import '../widgets/work_order_card.dart';
 
-class DashboardScreen extends StatefulWidget {
+class DashboardScreenNew extends StatefulWidget {
   final String employeeId;
 
-  const DashboardScreen({super.key, required this.employeeId});
+  const DashboardScreenNew({super.key, required this.employeeId});
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  State<DashboardScreenNew> createState() => _DashboardScreenNewState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _DashboardScreenNewState extends State<DashboardScreenNew> {
   String selectedPlant = '';
   List<String> availablePlants = [];
   
@@ -47,7 +47,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         availablePlants = plants;
         if (plants.isNotEmpty) {
           selectedPlant = plants.first;
-          _loadData(); // Load data after plants are loaded
+          _loadData();
         } else {
           errorMessage = 'No plants available';
         }
@@ -62,10 +62,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Future<void> _loadData() async {
-    if (selectedPlant.isEmpty) {
-      print('No plant selected, skipping data load');
-      return;
-    }
+    if (selectedPlant.isEmpty) return;
     
     await Future.wait([
       _loadNotifications(),
@@ -125,7 +122,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     setState(() {
       _selectedIndex = index;
     });
-    // Close drawer if open
     if (_scaffoldKey.currentState!.isDrawerOpen) {
       Navigator.pop(context);
     }
